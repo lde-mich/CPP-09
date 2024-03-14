@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:53:13 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/14 15:02:05 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/03/14 15:41:56 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void BitcoinExchange::loadFileInput(std::string const &filename)
         std::getline(ss, valueStr, ',');
 
 		value = std::atof(valueStr.c_str());
-		this->database[key] = value;
+		this->input.insert(std::make_pair(key, value));
 	}
 
 	fileInput.close();
@@ -96,6 +96,23 @@ void BitcoinExchange::loadFileInput(std::string const &filename)
 
 	return ;
 }
+
+
+void BitcoinExchange::calculateBtc()
+{
+
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

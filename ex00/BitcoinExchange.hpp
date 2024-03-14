@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:52:55 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/14 14:27:46 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/03/14 15:38:07 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ class BitcoinExchange
 
 		void loadFileDatabase(std::string const &filename);
 		void loadFileInput(std::string const &filename);
+		void calculateBtc();
 
 		BitcoinExchange &operator=(BitcoinExchange const &obj);
 
