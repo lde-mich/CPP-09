@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:53:13 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/14 15:41:56 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/03/15 12:07:40 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void BitcoinExchange::loadFileDatabase(std::string const &filename)
 
 	float value;
 	std::string line;
+
+	std::getline(fileCsv, line);
 	while (std::getline(fileCsv, line))
 	{
         std::stringstream ss(line);
@@ -78,14 +80,19 @@ void BitcoinExchange::loadFileInput(std::string const &filename)
 
 	float value;
 	std::string line;
+	
+	std::getline(fileInput, line);
+	if (line != "date | value")
+		throw BitcoinExchange::UnsuitableFileException();
+
 	while (std::getline(fileInput, line))
 	{
         std::stringstream ss(line);
         std::string key;
 		std::string valueStr;
 
-		std::getline(ss, key, ',');
-        std::getline(ss, valueStr, ',');
+		std::getline(ss, key, '|');
+        std::getline(ss, valueStr, '|');
 
 		value = std::atof(valueStr.c_str());
 		this->input.insert(std::make_pair(key, value));
@@ -100,7 +107,14 @@ void BitcoinExchange::loadFileInput(std::string const &filename)
 
 void BitcoinExchange::calculateBtc()
 {
+	std::multimap<std::string, float>::iterator it;
 
+	for(it = this->input.begin(); it != this->input.end(); ++it)
+	{
+        std::cout << it->first << "| " << it->second << std::endl;
+    }
+
+	return ;
 }
 
 

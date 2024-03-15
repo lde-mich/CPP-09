@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:52:55 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/14 15:38:07 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/03/15 11:15:19 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,15 @@ class BitcoinExchange
                 virtual const char	*what() const throw()
 				{
 					return ("Error, unable to open file");
+				};
+        };
+
+		class UnsuitableFileException: public std::exception
+        {
+            public:
+                virtual const char	*what() const throw()
+				{
+					return ("Error, unsuitable file");
 				};
         };
 

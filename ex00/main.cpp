@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:53:33 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/14 15:28:00 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/03/14 17:21:31 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int main (int argc, char** argv)
 {
 	if (argc != 2)
 	{
-		std::cerr << "Error, bad input" << std::endl;
+		std::cerr << "Error: could not open file" << std::endl;
 		return (0);
 	}
 	
@@ -27,7 +27,10 @@ int main (int argc, char** argv)
 	{
 		btc.loadFileDatabase("data.csv");
 		btc.loadFileInput(argv[1]);
+
 		std::cout << "__________________\n" <<std::endl;
+
+		btc.calculateBtc();
 	}
 	catch(std::exception &e)
 	{
