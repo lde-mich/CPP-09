@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:53:13 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/15 12:07:40 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/03/15 18:01:23 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void BitcoinExchange::loadFileDatabase(std::string const &filename)
 	}
 
 	fileCsv.close();
-	std::cout << "load .csv success"<< std::endl;
 
 	return ;
 }
@@ -78,12 +77,13 @@ void BitcoinExchange::loadFileInput(std::string const &filename)
 	if (!fileInput.is_open())
 		throw BitcoinExchange::ErrorFileException();
 
-	float value;
 	std::string line;
 	
 	std::getline(fileInput, line);
 	if (line != "date | value")
 		throw BitcoinExchange::UnsuitableFileException();
+
+	struct tm tm;
 
 	while (std::getline(fileInput, line))
 	{
@@ -92,14 +92,19 @@ void BitcoinExchange::loadFileInput(std::string const &filename)
 		std::string valueStr;
 
 		std::getline(ss, key, '|');
+		std::string date(key, 0, 10);
         std::getline(ss, valueStr, '|');
 
-		value = std::atof(valueStr.c_str());
-		this->input.insert(std::make_pair(key, value));
+		if (!strptime(date.c_str(), "%Y-%m-%d", &tm))
+		{
+			std::cout << "Error: bad input => " << date << std::endl;
+			continue;
+		}
+
+		this->input.insert(std::make_pair(key, atof(valueStr.c_str())));
 	}
 
 	fileInput.close();
-	std::cout << "load .txt success"<< std::endl;
 
 	return ;
 }
@@ -108,10 +113,16 @@ void BitcoinExchange::loadFileInput(std::string const &filename)
 void BitcoinExchange::calculateBtc()
 {
 	std::multimap<std::string, float>::iterator it;
+	std::map<std::string, float>::iterator jt;
 
 	for(it = this->input.begin(); it != this->input.end(); ++it)
 	{
-        std::cout << it->first << "| " << it->second << std::endl;
+		for (jt = this->database.begin(); jt != this->database.end(); ++jt)
+		{
+			//std::cout << "input->"<< it->first << "-- " << "databse-->"<< jt->first << std::endl;
+			if (jt->first == it->first)
+				std::cout << it->first << "=>" << it->second << jt->second << std::endl;
+		}
     }
 
 	return ;

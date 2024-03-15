@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:52:55 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/15 11:15:19 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/03/15 16:16:18 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <string>
 #include <map>
 #include <cstdlib>
+#include <utility>
 
 class BitcoinExchange
 {
