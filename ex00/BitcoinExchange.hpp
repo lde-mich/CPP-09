@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:52:55 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/15 16:16:18 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/03/18 10:40:23 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <map>
 #include <cstdlib>
 #include <utility>
+#include <limits>
 
 class BitcoinExchange
 {
@@ -30,6 +31,7 @@ class BitcoinExchange
 
 		void loadFileDatabase(std::string const &filename);
 		void loadFileInput(std::string const &filename);
+		void checkValue();
 		void calculateBtc();
 
 		BitcoinExchange &operator=(BitcoinExchange const &obj);
@@ -54,6 +56,33 @@ class BitcoinExchange
                 virtual const char	*what() const throw()
 				{
 					return ("Error, unsuitable file");
+				};
+        };
+
+		class PositiveNumberException: public std::exception
+        {
+            public:
+                virtual const char	*what() const throw()
+				{
+					return ("Error: not a positive number.");
+				};
+        };
+
+		class MaxIntException: public std::exception
+        {
+            public:
+                virtual const char	*what() const throw()
+				{
+					return ("Error: too large a number.");
+				};
+        };
+
+		class MinIntException: public std::exception
+        {
+            public:
+                virtual const char	*what() const throw()
+				{
+					return ("Error: too small a number.");
 				};
         };
 

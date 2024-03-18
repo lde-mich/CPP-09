@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:53:13 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/15 18:01:23 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/03/18 14:43:28 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void BitcoinExchange::loadFileInput(std::string const &filename)
 		std::string valueStr;
 
 		std::getline(ss, key, '|');
+		key = key.substr(0, key.find_last_not_of(" \t") + 1);
 		std::string date(key, 0, 10);
         std::getline(ss, valueStr, '|');
 
@@ -101,12 +102,36 @@ void BitcoinExchange::loadFileInput(std::string const &filename)
 			continue;
 		}
 
+		if ((valueStr.length() > 11 && valueStr[1] != '-')
+				|| (valueStr.length() == 11 && valueStr[valueStr.length() - 1] > 55))
+		{
+			throw BitcoinExchange::MaxIntException();
+		}
+		else if (valueStr.length() > 12 || (valueStr.length() == 12 && valueStr[valueStr.length() - 1] > 56))
+		{
+			throw BitcoinExchange::MinIntException();
+		}
+
 		this->input.insert(std::make_pair(key, atof(valueStr.c_str())));
 	}
 
 	fileInput.close();
 
 	return ;
+}
+
+
+void BitcoinExchange::checkValue()
+{
+	std::multimap<std::string, float>::iterator it;
+
+	for (it = this->input.begin(); it != this->input.end(); ++it)
+	{
+		if (it->second > std::numeric_limits<int>::max())
+			std::cout << "Eccolo: " << it->second << std::endl;
+	}
+
+	return;
 }
 
 
@@ -119,29 +144,13 @@ void BitcoinExchange::calculateBtc()
 	{
 		for (jt = this->database.begin(); jt != this->database.end(); ++jt)
 		{
-			//std::cout << "input->"<< it->first << "-- " << "databse-->"<< jt->first << std::endl;
 			if (jt->first == it->first)
-				std::cout << it->first << "=>" << it->second << jt->second << std::endl;
+				std::cout << it->first << " => " << it->second << " = "<< (jt->second * it->second) << std::endl;
 		}
     }
 
 	return ;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
