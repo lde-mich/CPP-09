@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:53:33 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/18 10:35:48 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/03/18 16:53:01 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,8 @@ int main (int argc, char** argv)
 	try
 	{
 
-		btc.loadFileDatabase("data1.csv");
+		btc.loadFileDatabase("data.csv");
 		btc.loadFileInput(argv[1]);
-
-		btc.checkValue();
 
 		btc.calculateBtc();
 

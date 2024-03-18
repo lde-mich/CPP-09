@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:53:13 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/18 14:43:28 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/03/18 16:44:13 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,12 @@ void BitcoinExchange::loadFileInput(std::string const &filename)
 			continue;
 		}
 
-		if ((valueStr.length() > 11 && valueStr[1] != '-')
-				|| (valueStr.length() == 11 && valueStr[valueStr.length() - 1] > 55))
+		if (valueStr.length() > 11 || (valueStr.length() == 11 && valueStr[valueStr.length() - 1] > 55))
 		{
-			throw BitcoinExchange::MaxIntException();
+			std::cout << "Error: too large a number." << std::endl;
 		}
-		else if (valueStr.length() > 12 || (valueStr.length() == 12 && valueStr[valueStr.length() - 1] > 56))
-		{
-			throw BitcoinExchange::MinIntException();
-		}
+		else if (atoi(valueStr.c_str()) < 0)
+			std::cout << "Error: not a positive number." << std::endl;
 
 		this->input.insert(std::make_pair(key, atof(valueStr.c_str())));
 	}
@@ -119,21 +116,6 @@ void BitcoinExchange::loadFileInput(std::string const &filename)
 
 	return ;
 }
-
-
-void BitcoinExchange::checkValue()
-{
-	std::multimap<std::string, float>::iterator it;
-
-	for (it = this->input.begin(); it != this->input.end(); ++it)
-	{
-		if (it->second > std::numeric_limits<int>::max())
-			std::cout << "Eccolo: " << it->second << std::endl;
-	}
-
-	return;
-}
-
 
 void BitcoinExchange::calculateBtc()
 {
@@ -144,8 +126,19 @@ void BitcoinExchange::calculateBtc()
 	{
 		for (jt = this->database.begin(); jt != this->database.end(); ++jt)
 		{
-			if (jt->first == it->first)
+			if (!it->first.compare(jt->first))
+			{
 				std::cout << it->first << " => " << it->second << " = "<< (jt->second * it->second) << std::endl;
+				break;
+			}
+			else if (it->first.compare(jt->first) < 0)
+			{
+				std::map<std::string, float>::iterator itTmp = this->database.lower_bound(it->first);
+				itTmp--;
+
+				std::cout << it->first << " => " << it->second << " = " << it->second * itTmp->second << std::endl;
+				break;
+			}
 		}
     }
 
