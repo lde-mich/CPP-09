@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:53:13 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/18 16:44:13 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/03/18 17:09:53 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,17 @@ void BitcoinExchange::loadFileInput(std::string const &filename)
 			std::cout << "Error: bad input => " << date << std::endl;
 			continue;
 		}
-
+		
 		if (valueStr.length() > 11 || (valueStr.length() == 11 && valueStr[valueStr.length() - 1] > 55))
 		{
 			std::cout << "Error: too large a number." << std::endl;
-		}
+			continue;
+		}	
 		else if (atoi(valueStr.c_str()) < 0)
+		{
 			std::cout << "Error: not a positive number." << std::endl;
+			continue;
+		}
 
 		this->input.insert(std::make_pair(key, atof(valueStr.c_str())));
 	}
