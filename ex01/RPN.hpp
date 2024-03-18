@@ -1,20 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   RPN.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/18 17:16:17 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/18 17:39:46 by lde-mich         ###   ########.fr       */
+/*   Created: 2024/03/18 17:28:34 by lde-mich          #+#    #+#             */
+/*   Updated: 2024/03/18 17:39:30 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RPN.hpp"
+#pragma once
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <map>
+#include <cstdlib>
+#include <utility>
+#include <limits>
 
-int main ()
+class RPN
 {
+	private:
+		
+		std::stack<std::string> stack;
+
+	public:
 
 
-	return (0);
-}
+
+};
