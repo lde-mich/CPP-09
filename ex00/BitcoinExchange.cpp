@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:53:13 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/18 17:09:53 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/03/19 11:30:24 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,22 @@ void BitcoinExchange::loadFileInput(std::string const &filename)
 		std::string date(key, 0, 10);
         std::getline(ss, valueStr, '|');
 
+		int year;
+		std::stringstream(date.substr(0, 4)) >> year;
+        bool leapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+
 		if (!strptime(date.c_str(), "%Y-%m-%d", &tm))
 		{
 			std::cout << "Error: bad input => " << date << std::endl;
 			continue;
 		}
 		
+		if (!leapYear && tm.tm_mon == 1 && tm.tm_mday == 29)
+        {
+            std::cout << "Error: not a leap year => " << date << std::endl;
+            continue;
+        }
+
 		if (valueStr.length() > 11 || (valueStr.length() == 11 && valueStr[valueStr.length() - 1] > 55))
 		{
 			std::cout << "Error: too large a number." << std::endl;
