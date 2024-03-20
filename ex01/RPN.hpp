@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:28:34 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/19 16:10:24 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/03/20 17:51:37 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ class RPN
 {
 	private:
 		
-		std::stack<char> stack;
+		std::stack<int> stack;
 
 	public:
 

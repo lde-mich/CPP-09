@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:29:30 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/20 13:08:52 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/03/20 18:20:03 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void RPN::calculator(char* argv)
 {
 	int i = 0;
 
-	//char c;
 	int n = 0;
 
 	while (argv[i])
@@ -56,41 +55,52 @@ void RPN::calculator(char* argv)
 				i++;
 				continue;
 			}
-			this->stack.push(argv[i]);
+			this->stack.push(argv[i] - '0');
 			i++;
 		}
 		int j = 0;
-		while (!this->stack.empty())
+		int k = 0;
+		n = 0;
+		for (int m = 0; m < 2; m++)
 		{
-			std::cout << "top→ "<< this->stack.top() << std::endl;
-			std::cout << "operator→ " << argv[i] << std::endl;
 			switch (argv[i])
 			{
 				case '+':
-					n += this->stack.top() - '0';
+					n += this->stack.top();
+					this->stack.pop();
 					break;
 				case '-':
-					n -= this->stack.top() - '0';
+					n = this->stack.top();
+					this->stack.pop();
+					k = this->stack.top();
+					n = k - n;
+					this->stack.pop();
+					m = 2;
 					break;
 				case '*':
 					if (j == 0)
 					{
-						n = this->stack.top() - '0';
-						this->stack.pop();
+						n = 1;
 						j++;
 					}
-					n *= this->stack.top() - '0';
+					n *= this->stack.top();
+					this->stack.pop();
 					break;
 				case '/':
-					n /= this->stack.top() - '0';
+					n = this->stack.top();
+					this->stack.pop();
+					k = this->stack.top();
+					n = k / n;
+					this->stack.pop();
+					m = 2;
 					break;
 			}
-
-			this->stack.pop();
-			std::cout << "→ " << n << std::endl;
 		}
+		this->stack.push(n);
 		i++;
 	}
+
+	std::cout << n << std::endl;
 }
 
 
