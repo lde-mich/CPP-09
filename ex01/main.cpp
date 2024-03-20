@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:16:17 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/19 14:31:05 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/03/19 16:03:39 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int main (int argc, char** argv)
 {
 	if (argc != 2)
 	{
-		std::cerr << "Error, invalid input" << std::endl;
+		std::cerr << "Error → invalid input" << std::endl;
 		return (0);
 	}
 
@@ -31,9 +31,11 @@ int main (int argc, char** argv)
 		}
 	}
 
+	RPN obj;
+
 	try
 	{
-		
+		obj.calculator(argv[1]);
 	}
 	catch(std::exception &e)
 	{
