@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:18:57 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/22 15:01:13 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/03/23 14:55:25 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,19 @@ PmergeMe &PmergeMe::operator=(PmergeMe const &obj)
 }
 
 
+
+//UTILS
+
 void PmergeMe::printVector(std::vector<int> arr)
 {
-	int i = -1;
-	while (arr[++i])
-		std::cout << "-" << arr[i];
-	std::cout << "" << std::endl;
+	int i = 0;
+	std::cout << "| ";
+	while (i < getSize(arr))
+	{
+		std::cout << arr[i] << " | ";
+		i++;
+	}
+	std::cout << std::endl;
 
 	return ;
 }
@@ -56,6 +63,15 @@ int PmergeMe::getSize(std::vector<int> arr)
 	return (arr.size());
 }
 
+
+std::vector<int> PmergeMe::getVector()
+{
+	return (this->vector);
+}
+
+
+
+//CHECK
 
 void PmergeMe::checkArgs(char** argv)
 {
@@ -89,21 +105,33 @@ void PmergeMe::loadArgs(char** argv)
 }
 
 
-void PmergeMe::firstStepVector(std::vector<int> arr, int pairsize)
-{	
-	if (arr.size() % 2 == 0)
+
+//SORT
+
+void PmergeMe::firstStepVector(int pairsize)
+{
+	if (getSize(this->vector) % 2 == 0)
 	{
-		if (pairsize >= getSize(arr))
+		if (pairsize > getSize(this->vector))
 			return;
 
 		int i = 0;
-		while (arr[i])
-		{
-			if (arr[i] < arr[i + 1])
-				std::swap(arr[i], arr[i + 1]);
+		while (this->vector[i])
+        {
+            if (this->vector[i] < this->vector[i + pairsize / 2])
+            {
+                std::swap(this->vector[i], this->vector[i + pairsize / 2]);
+                
+                int j = 1;
+                while (j < pairsize / 2)
+                {
+                  std::swap(this->vector[j + i], this->vector[j + i + (pairsize / 2)]);
+                  j++;
+                }
+            }
 			i += pairsize;
 		}
-		firstStepVector(arr, pairsize * 2);
+		firstStepVector(pairsize * 2);
 	}
 }
 
