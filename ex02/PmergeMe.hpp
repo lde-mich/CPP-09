@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:19:12 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/23 14:55:03 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/03/25 17:08:05 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ class PmergeMe
 	private:
 
 		std::vector<int> vector;
+		std::vector<int> restVector;
+		
 		std::deque<int> deque;
+		std::deque<int> restDeque;
 
 	public:
 		
@@ -32,10 +35,13 @@ class PmergeMe
 		void loadArgs(char** argv);
 		
 		void firstStepVector(int pairsize);
+		void secondStepVector(int pairsize);
 		
 		void printVector(std::vector<int> arr);
 		int getSize(std::vector<int> arr);
 		std::vector<int> getVector();
+
+		void vectorExecute();
 
 		PmergeMe &operator=(PmergeMe const &obj);
 

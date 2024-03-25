@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:18:57 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/23 14:55:25 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/03/25 17:07:49 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,33 +110,61 @@ void PmergeMe::loadArgs(char** argv)
 
 void PmergeMe::firstStepVector(int pairsize)
 {
-	if (getSize(this->vector) % 2 == 0)
-	{
-		if (pairsize > getSize(this->vector))
-			return;
+	if (pairsize > getSize(this->vector))
+		return;
 
-		int i = 0;
-		while (this->vector[i])
-        {
-            if (this->vector[i] < this->vector[i + pairsize / 2])
-            {
-                std::swap(this->vector[i], this->vector[i + pairsize / 2]);
-                
-                int j = 1;
-                while (j < pairsize / 2)
-                {
-                  std::swap(this->vector[j + i], this->vector[j + i + (pairsize / 2)]);
-                  j++;
-                }
-            }
-			i += pairsize;
+	int i = 0;
+	while (this->vector[i])
+	{
+		if (this->vector[i] < this->vector[i + pairsize / 2])
+		{
+			std::swap(this->vector[i], this->vector[i + pairsize / 2]);
+			
+			int j = 1;
+			while (j < pairsize / 2)
+			{
+				std::swap(this->vector[j + i], this->vector[j + i + (pairsize / 2)]);
+				j++;
+			}
 		}
-		firstStepVector(pairsize * 2);
+		i += pairsize;
 	}
+	firstStepVector(pairsize * 2);
+}
+
+void PmergeMe::secondStepVector(int pairsize)
+{
+	if (pairsize < 2)
+		return;
+		
+	int i = 0;
+	while (this->vector[i])
+	{
+		
+		i -= pairsize;
+		break;
+	}
+	secondStepVector(pairsize / 2);
 }
 
 
 
+//EXECUTE
+
+void PmergeMe::vectorExecute()
+{
+	std::cout << "Start →       "; 
+	printVector(getVector());
+	
+	firstStepVector(2);
+	std::cout << "First step →  ";
+	printVector(getVector());
+	
+	secondStepVector(getSize(this->vector));
+	std::cout << "Second step → ";
+	printVector(getVector());
+	
+}
 
 
 
