@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:18:57 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/25 17:07:49 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/04/03 17:33:09 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,20 +129,37 @@ void PmergeMe::firstStepVector(int pairsize)
 		}
 		i += pairsize;
 	}
+	std::cout << "Step →        ";
+	printVector(getVector());
+	
 	firstStepVector(pairsize * 2);
 }
 
 void PmergeMe::secondStepVector(int pairsize)
 {
+	std::vector<int> mainVector;
+	std::vector<int> pendVector;
+
 	if (pairsize < 2)
 		return;
 		
-	int i = 0;
-	while (this->vector[i])
+	int i = pairsize;
+	if (i == getSize(this->vector))
 	{
+		std::cout << "main → " << i << std::endl;
+		mainVector.push_back(i);
+	}
+	while (this->vector[i])
+	{		
+		int j = 1;
+		while (j < pairsize / 2)
+		{
+			std::cout << "pend → " << (j + i + (pairsize / 2)) << std::endl;
+			pendVector.push_back(j + i + (pairsize / 2));
+			j++;
+		}
 		
 		i -= pairsize;
-		break;
 	}
 	secondStepVector(pairsize / 2);
 }
@@ -153,6 +170,7 @@ void PmergeMe::secondStepVector(int pairsize)
 
 void PmergeMe::vectorExecute()
 {
+	
 	std::cout << "Start →       "; 
 	printVector(getVector());
 	
@@ -165,6 +183,8 @@ void PmergeMe::vectorExecute()
 	printVector(getVector());
 	
 }
+
+
 
 
 
