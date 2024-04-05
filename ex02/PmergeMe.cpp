@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:18:57 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/04/03 17:33:09 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/04/05 18:19:53 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,15 @@ PmergeMe &PmergeMe::operator=(PmergeMe const &obj)
 
 //UTILS
 
+size_t jacobsthal[] =
+{
+    1u, 3u, 5u, 11u, 21u, 43u, 85u, 171u, 341u, 683u, 1365u,
+    2731u, 5461u, 10923u, 21845u, 43691u, 87381u, 174763u, 349525u, 699051u,
+    1398101u, 2796203u, 5592405u, 11184811u, 22369621u, 44739243u, 89478485u,
+    178956971u, 357913941u, 715827883u, 1431655765u,
+    2863311531u, 5726623061u, 11453246123u
+};
+
 void PmergeMe::printVector(std::vector<int> arr)
 {
 	int i = 0;
@@ -53,7 +62,7 @@ void PmergeMe::printVector(std::vector<int> arr)
 		std::cout << arr[i] << " | ";
 		i++;
 	}
-	std::cout << std::endl;
+	std::cout << "\n" << std::endl;
 
 	return ;
 }
@@ -129,39 +138,39 @@ void PmergeMe::firstStepVector(int pairsize)
 		}
 		i += pairsize;
 	}
-	std::cout << "Step →        ";
-	printVector(getVector());
 	
+	std::vector<int> tmp = getVector();
 	firstStepVector(pairsize * 2);
+
+	secondStepVector(tmp, pairsize);
+
 }
 
-void PmergeMe::secondStepVector(int pairsize)
+void PmergeMe::secondStepVector(std::vector<int> vec, int pairsize)
 {
 	std::vector<int> mainVector;
 	std::vector<int> pendVector;
 
-	if (pairsize < 2)
-		return;
-		
-	int i = pairsize;
-	if (i == getSize(this->vector))
-	{
-		std::cout << "main → " << i << std::endl;
-		mainVector.push_back(i);
-	}
-	while (this->vector[i])
+	std::cout << "Step →           ";
+	printVector(vec);
+	
+	int i = pairsize / 2;
+	if (i == getSize(vec) / 2)
+		mainVector.push_back(vec[i]);
+	while (vec[i])
 	{		
 		int j = 1;
 		while (j < pairsize / 2)
 		{
-			std::cout << "pend → " << (j + i + (pairsize / 2)) << std::endl;
+			// std::cout << "pend → " << (j + i + (pairsize / 2)) << std::endl;
 			pendVector.push_back(j + i + (pairsize / 2));
 			j++;
 		}
 		
-		i -= pairsize;
+		i += pairsize / 2;
 	}
-	secondStepVector(pairsize / 2);
+	std::cout << "Pend vector →       ";
+	printVector(pendVector);
 }
 
 
@@ -175,12 +184,11 @@ void PmergeMe::vectorExecute()
 	printVector(getVector());
 	
 	firstStepVector(2);
-	std::cout << "First step →  ";
-	printVector(getVector());
+	// std::cout << "First step →  ";
+	// printVector(getVector());
 	
-	secondStepVector(getSize(this->vector));
-	std::cout << "Second step → ";
-	printVector(getVector());
+	// std::cout << "Second step → ";
+	// printVector(getVector());
 	
 }
 

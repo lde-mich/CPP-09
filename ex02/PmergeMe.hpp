@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:19:12 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/04/03 12:17:57 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/04/04 12:04:24 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ class PmergeMe
 		void loadArgs(char** argv);
 		
 		void firstStepVector(int pairsize);
-		void secondStepVector(int pairsize);
+		void secondStepVector(std::vector<int> vec, int pairsize);
 		
 		void printVector(std::vector<int> arr);
 		int getSize(std::vector<int> arr);
