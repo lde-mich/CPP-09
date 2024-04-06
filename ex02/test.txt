@@ -1,0 +1,76 @@
+void PmergeMe::firstStepVector(int pairsize)
+{
+	if (pairsize > getSize(this->vector))
+		return;
+
+	int i = 0;
+	while (this->vector[i])
+	{
+		if (this->vector[i] < this->vector[i + pairsize / 2])
+		{
+			std::swap(this->vector[i], this->vector[i + pairsize / 2]);
+			
+			int j = 1;
+			while (j < pairsize / 2)
+			{
+				std::swap(this->vector[j + i], this->vector[j + i + (pairsize / 2)]);
+				j++;
+			}
+		}
+		i += pairsize;
+	}
+	
+	std::vector<int> tmp = getVector();
+	firstStepVector(pairsize * 2);
+
+	secondStepVector(tmp, pairsize);
+
+}
+
+
+void PmergeMe::secondStepVector(std::vector<int> vec, int pairsize)
+{
+	// std::vector<int> mainVector;
+	// std::vector<int> pendVector;
+
+	std::cout << "Step →           ";
+	printVector(vec);
+	
+	int i = pairsize / 2;
+	
+	this->mainVector.push_back(vec[0]);
+	this->mainVector.push_back(vec[i]);
+	std::cout << "Main vector →       ";
+	printVector(mainVector);
+	
+	while (vec[i])
+	{		
+		int j = 1;
+		while (j < pairsize / 2)
+		{
+			// std::cout << "pend → " << () << std::endl;
+			pendVector.push_back(0);
+			j++;
+		}
+		
+		i += pairsize / 2;
+	}
+	std::cout << "Pend vector →       ";
+	printVector(pendVector);
+}
+
+
+void PmergeMe::vectorExecute()
+{
+	
+	std::cout << "Start →       "; 
+	printVector(getVector());
+	
+	firstStepVector(2);
+	// std::cout << "First step →  ";
+	// printVector(getVector());
+	
+	// std::cout << "Second step → ";
+	// printVector(getVector());
+	
+}
