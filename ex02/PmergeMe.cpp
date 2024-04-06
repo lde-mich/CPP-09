@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:18:57 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/04/06 16:16:08 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/04/06 16:20:15 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,13 +175,14 @@ void PmergeMe::secondStepVector(int pairsize)
 		i++;	
 	}
 
-	this->vector = this->pendVector;
-
 	std::cout << "Step " << ++rr << " →      ";
 	printVector(getVector());
+
 	std::cout << "Pend →        "; 
 	printVector(this->pendVector);
-	exit(1);
+	
+	this->vector = this->pendVector;
+	this->pendVector.clear();
 	
 	secondStepVector(pairsize / 2);
 }
