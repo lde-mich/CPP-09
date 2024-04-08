@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:18:57 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/04/06 16:20:15 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/04/08 17:36:33 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,39 +153,104 @@ void PmergeMe::firstStepVector(int pairsize)
 
 }
 
+// void PmergeMe::secondStepVector(int pairsize)
+// {
+// 	static int rr;
+// 	if (pairsize <= 2)
+// 		return;
+
+// 	this->pendVector.push_back(this->vector[pairsize / 2]);
+
+// 	int i = pairsize / 2 + 1;
+// 	while (i < pairsize)
+// 	{
+// 		this->pendVector.push_back(this->vector[i]);
+// 		i++;
+// 	}
+
+// 	i = 0;
+// 	while (i < pairsize / 2)
+// 	{
+// 		this->pendVector.push_back(this->vector[i]);
+// 		i++;	
+// 	}
+
+// 	std::cout << "Step " << ++rr << " →      ";
+// 	printVector(getVector());
+
+// 	std::cout << "Pend →        "; 
+// 	printVector(this->pendVector);
+	
+// 	this->vector = this->pendVector;
+// 	this->pendVector.clear();
+	
+// 	secondStepVector(pairsize / 2);
+	
+// }
+
+
 void PmergeMe::secondStepVector(int pairsize)
 {
-	static int rr;
-	if (pairsize <= 2)
-		return;
+    static int rr;
+    if (pairsize <= 2)
+        return;
 
-	this->pendVector.push_back(this->vector[pairsize / 2]);
+    this->pendVector.push_back(this->vector[pairsize / 2]);
 
-	int i = pairsize / 2 + 1;
-	while (i < pairsize)
+    int i = pairsize / 2 + 1;
+    while (i < pairsize)
 	{
-		this->pendVector.push_back(this->vector[i]);
-		i++;
-	}
+        this->pendVector.push_back(this->vector[i]);
+        i++;
+    }
 
-	i = 0;
-	while (i < pairsize / 2)
+    i = 0;
+    while (i < pairsize / 2)
 	{
-		this->pendVector.push_back(this->vector[i]);
-		i++;	
-	}
+        this->pendVector.push_back(this->vector[i]);
+        i++;    
+    }
 
-	std::cout << "Step " << ++rr << " →      ";
-	printVector(getVector());
+    std::cout << "Step " << ++rr << " →      ";
+    printVector(getVector());
 
-	std::cout << "Pend →        "; 
-	printVector(this->pendVector);
+    // std::cout << "Pend →        "; 
+    // printVector(this->pendVector);
+    
+    int left = 0;
+	int right = pendVector.size() - 1;
+    int mid = (left + right) / 2;
+
+    int k = 0;
+    while (left <= mid && mid + 1 <= right)
+	{
+        if (pendVector[left] <= pendVector[mid + 1])
+		{
+            this->vector[k++] = pendVector[left++];
+        }
+		else
+		{
+            this->vector[k++] = pendVector[mid + 1];
+            mid++;
+        }
+    }
+
+    while (left <= mid)
+	{
+        this->vector[k++] = pendVector[left++];
+    }
+
+    while (mid + 1 <= right)
+	{
+        this->vector[k++] = pendVector[mid + 1];
+        mid++;
+    }
+
+    this->pendVector.clear();
 	
-	this->vector = this->pendVector;
-	this->pendVector.clear();
-	
-	secondStepVector(pairsize / 2);
+    secondStepVector(pairsize / 2);
 }
+
 
 
 //EXECUTE
@@ -203,6 +268,8 @@ void PmergeMe::vectorExecute()
 	
 	std::cout << "Second step:"<< std::endl;
 	secondStepVector(getSize(this->vector));
+	std::cout << "second →      "; 
+    printVector(this->vector);
 	std::cout << "-----------------------------------------------" << std::endl;
 	
 }
