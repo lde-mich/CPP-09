@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:18:57 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/04/09 17:29:20 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/04/09 22:41:19 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,8 +194,11 @@ void PmergeMe::secondStepVector(int pairsize)
     printVector(getVector());
 	
     this->pendVector.push_back(this->vector[pairsize / 2]);
+	this->mainVector.push_back(this->vector[pairsize / 2]);
 
     int i = pairsize / 2 + 1;
+	this->mainVector.push_back(this->vector[i]);
+	
     while (i < pairsize)
 	{
         this->pendVector.push_back(this->vector[i]);
@@ -203,36 +206,58 @@ void PmergeMe::secondStepVector(int pairsize)
     }
 
     i = 0;
+	this->mainVector.push_back(this->vector[i]);
+	
     while (i < pairsize / 2)
 	{
         this->pendVector.push_back(this->vector[i]);
         i++;    
     }
 
+	if (pairsize != getSize(this->vector))
+	{
+		i = pairsize;
+		this->mainVector.push_back(this->vector[i]);
+		
+		while (i < pairsize + pairsize / 2)
+		{
+			this->pendVector.push_back(this->vector[i]);
+			i++;    
+		}
+
+		int last = 3;
+		for (int i = 0; i < 33; i++)
+		{
+			if (jacobsthal[i] == last)
+				continue;
+			
+			int jacob = jacobsthal[i];
+			while (jacob > getSize(this->vector) / (pairsize / 2))
+				jacob--;
+			
+			// indice del main della futura coppia
+			int index = (jacob - 1) * pairsize / 2;
+			
+			// TODO: funzione che accetta un numero:(this->vector[index]), un array e restituisce l'indice di dove andare ad inserire il numero nell'array
+			// array da passare alla funzione: mainVector
+			// l'indice ritornato dalla funzione, sarà moltiplicato per pairsize / 2
+			
+			//int tmp = indice ritornato dalla funzione moltiplicato per pairsize / 2
+			
+			this->mainVector.insert(this->vector.begin() + indice ritornato dalla funzione, this->vector[index]);
+			while (index < jacob * pairsize / 2)
+			{
+				this->pendVector.insert(this->vector.begin() + tmp, this->vector[index]);
+				index++;
+			}
+			
+		}
+	}
+	this->vector = this->pendVector;
+
 	std::cout << "Pend →        "; 
     printVector(this->pendVector);
 	std::cout << "--------------" << std::endl;
-
-	//
-	
-    int left = 0;
-	int right = pendVector.size() - 1;
-    int mid = (left + right) / 2;
-	
-    int k = 0;
-    while (left <= mid)
-	{
-        this->vector[k] = pendVector[left];
-		k++;
-		left++;
-	}
-	
-    while (mid + 1 <= right)
-	{
-        this->vector[k] = pendVector[mid + 1];
-		k++;
-        mid++;
-    }
 
     this->pendVector.clear();
 	
@@ -257,11 +282,11 @@ void PmergeMe::vectorExecute()
 	std::cout << "Second step:"<< std::endl;
 	secondStepVector(getSize(this->vector));
 
-	// Ordina pendVector utilizzando la serie di Jacobsthal come chiave
-	insertionSortUsingJacobsthal(this->vector);
-	
 	std::cout << "second →      "; 
     printVector(this->vector);
 	std::cout << "-----------------------------------------------" << std::endl;
+
+	// // Ordina pendVector utilizzando la serie di Jacobsthal come chiave
+	// insertionSortUsingJacobsthal(this->vector);
 	
 }
