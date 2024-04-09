@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:19:12 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/04/08 13:01:49 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/04/09 17:09:39 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ class PmergeMe
 		void firstStepVector(int pairsize);
 		void secondStepVector(int pairsize);
 		
-		void binaryInsert(std::vector<int> arr, int num);
+		void binaryInsert(std::vector<int>& arr, int num, int left, int right);
+		void insertionSortUsingJacobsthal(std::vector<int>& arr);
 		void printVector(std::vector<int> arr);
 		int getSize(std::vector<int> arr);
 		std::vector<int> getVector();

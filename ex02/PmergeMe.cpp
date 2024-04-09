@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:18:57 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/04/08 17:36:33 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/04/09 17:29:20 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,40 @@ size_t jacobsthal[] =
     2863311531u, 5726623061u, 11453246123u
 };
 
-void PmergeMe::binaryInsert(std::vector<int> arr, int num)
+void PmergeMe::insertionSortUsingJacobsthal(std::vector<int>& arr)
 {
-	(void) arr;
-	(void) num;
+		int i = 1;
+        while (i < getSize(arr))
+		{
+            int key = arr[i];
+            int j = i - 1;
+
+            // Trova la posizione corretta per inserire l'elemento attuale
+            while (j >= 0 && jacobsthal[arr[j]] > jacobsthal[key])
+			{
+                arr[j + 1] = arr[j];
+                j = j - 1;
+            }
+            arr[j + 1] = key;
+
+			i++;
+        }
+}
+
+void PmergeMe::binaryInsert(std::vector<int>& arr, int num, int left, int right)
+{
+	int mid = (left + right) / 2;
+
+	if (num < arr[mid])
+        binaryInsert(arr, num, left, right / 2);
+    else if (num > arr[mid])
+	{
+		left = mid + 1;
+        binaryInsert(arr, num, left, right);
+	}
+    else
+        arr.insert(arr.begin() + mid, num);
+	
 }
 
 void PmergeMe::printVector(std::vector<int> arr)
@@ -68,7 +98,7 @@ void PmergeMe::printVector(std::vector<int> arr)
 		std::cout << arr[i] << " | ";
 		i++;
 	}
-	std::cout << "\n" << std::endl;
+	std::cout << std::endl;
 
 	return ;
 }
@@ -153,48 +183,16 @@ void PmergeMe::firstStepVector(int pairsize)
 
 }
 
-// void PmergeMe::secondStepVector(int pairsize)
-// {
-// 	static int rr;
-// 	if (pairsize <= 2)
-// 		return;
-
-// 	this->pendVector.push_back(this->vector[pairsize / 2]);
-
-// 	int i = pairsize / 2 + 1;
-// 	while (i < pairsize)
-// 	{
-// 		this->pendVector.push_back(this->vector[i]);
-// 		i++;
-// 	}
-
-// 	i = 0;
-// 	while (i < pairsize / 2)
-// 	{
-// 		this->pendVector.push_back(this->vector[i]);
-// 		i++;	
-// 	}
-
-// 	std::cout << "Step " << ++rr << " →      ";
-// 	printVector(getVector());
-
-// 	std::cout << "Pend →        "; 
-// 	printVector(this->pendVector);
-	
-// 	this->vector = this->pendVector;
-// 	this->pendVector.clear();
-	
-// 	secondStepVector(pairsize / 2);
-	
-// }
-
 
 void PmergeMe::secondStepVector(int pairsize)
 {
     static int rr;
     if (pairsize <= 2)
-        return;
+		return;
 
+	std::cout << "Vector " << ++rr << " →    ";
+    printVector(getVector());
+	
     this->pendVector.push_back(this->vector[pairsize / 2]);
 
     int i = pairsize / 2 + 1;
@@ -211,38 +209,28 @@ void PmergeMe::secondStepVector(int pairsize)
         i++;    
     }
 
-    std::cout << "Step " << ++rr << " →      ";
-    printVector(getVector());
+	std::cout << "Pend →        "; 
+    printVector(this->pendVector);
+	std::cout << "--------------" << std::endl;
 
-    // std::cout << "Pend →        "; 
-    // printVector(this->pendVector);
-    
+	//
+	
     int left = 0;
 	int right = pendVector.size() - 1;
     int mid = (left + right) / 2;
-
+	
     int k = 0;
-    while (left <= mid && mid + 1 <= right)
-	{
-        if (pendVector[left] <= pendVector[mid + 1])
-		{
-            this->vector[k++] = pendVector[left++];
-        }
-		else
-		{
-            this->vector[k++] = pendVector[mid + 1];
-            mid++;
-        }
-    }
-
     while (left <= mid)
 	{
-        this->vector[k++] = pendVector[left++];
-    }
-
+        this->vector[k] = pendVector[left];
+		k++;
+		left++;
+	}
+	
     while (mid + 1 <= right)
 	{
-        this->vector[k++] = pendVector[mid + 1];
+        this->vector[k] = pendVector[mid + 1];
+		k++;
         mid++;
     }
 
@@ -268,10 +256,12 @@ void PmergeMe::vectorExecute()
 	
 	std::cout << "Second step:"<< std::endl;
 	secondStepVector(getSize(this->vector));
+
+	// Ordina pendVector utilizzando la serie di Jacobsthal come chiave
+	insertionSortUsingJacobsthal(this->vector);
+	
 	std::cout << "second →      "; 
     printVector(this->vector);
 	std::cout << "-----------------------------------------------" << std::endl;
 	
 }
-
-

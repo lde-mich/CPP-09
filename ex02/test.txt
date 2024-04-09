@@ -74,3 +74,48 @@ void PmergeMe::vectorExecute()
 	// printVector(getVector());
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+void PmergeMe::secondStepVector(int pairsize)
+{
+	static int rr;
+	if (pairsize <= 2)
+		return;
+
+	this->pendVector.push_back(this->vector[pairsize / 2]);
+
+	int i = pairsize / 2 + 1;
+	while (i < pairsize)
+	{
+		this->pendVector.push_back(this->vector[i]);
+		i++;
+	}
+
+	i = 0;
+	while (i < pairsize / 2)
+	{
+		this->pendVector.push_back(this->vector[i]);
+		i++;	
+	}
+
+	std::cout << "Step " << ++rr << " →      ";
+	printVector(getVector());
+
+	std::cout << "Pend →        "; 
+	printVector(this->pendVector);
+	
+	this->vector = this->pendVector;
+	this->pendVector.clear();
+	
+	secondStepVector(pairsize / 2);
+	
+}
