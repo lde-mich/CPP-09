@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:18:57 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/04/09 22:41:19 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/04/09 22:55:09 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,25 +53,6 @@ size_t jacobsthal[] =
     2863311531u, 5726623061u, 11453246123u
 };
 
-void PmergeMe::insertionSortUsingJacobsthal(std::vector<int>& arr)
-{
-		int i = 1;
-        while (i < getSize(arr))
-		{
-            int key = arr[i];
-            int j = i - 1;
-
-            // Trova la posizione corretta per inserire l'elemento attuale
-            while (j >= 0 && jacobsthal[arr[j]] > jacobsthal[key])
-			{
-                arr[j + 1] = arr[j];
-                j = j - 1;
-            }
-            arr[j + 1] = key;
-
-			i++;
-        }
-}
 
 void PmergeMe::binaryInsert(std::vector<int>& arr, int num, int left, int right)
 {
@@ -198,7 +179,6 @@ void PmergeMe::secondStepVector(int pairsize)
 
     int i = pairsize / 2 + 1;
 	this->mainVector.push_back(this->vector[i]);
-	
     while (i < pairsize)
 	{
         this->pendVector.push_back(this->vector[i]);
@@ -207,12 +187,12 @@ void PmergeMe::secondStepVector(int pairsize)
 
     i = 0;
 	this->mainVector.push_back(this->vector[i]);
-	
     while (i < pairsize / 2)
 	{
         this->pendVector.push_back(this->vector[i]);
         i++;    
     }
+
 
 	if (pairsize != getSize(this->vector))
 	{
@@ -285,8 +265,5 @@ void PmergeMe::vectorExecute()
 	std::cout << "second →      "; 
     printVector(this->vector);
 	std::cout << "-----------------------------------------------" << std::endl;
-
-	// // Ordina pendVector utilizzando la serie di Jacobsthal come chiave
-	// insertionSortUsingJacobsthal(this->vector);
 	
 }
