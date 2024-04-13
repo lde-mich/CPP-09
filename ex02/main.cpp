@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:18:27 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/04/13 10:36:10 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/04/13 12:04:14 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,9 @@ int main(int argc, char** argv)
 		
 		srt.checkArgs(argv);
 		srt.loadArgs(argv);
-		// std::vector<int> &v = srt.getVector();
-		// int tmp = srt.searchToDo(0, v);
-		// srt.printVector(v);
-		// v.insert(v.begin() + tmp, 0);
-		// srt.printVector(v);
+		
 		srt.vectorExecute();
+		// srt.dequeExecute();
 
 	}
 	catch(std::exception &e)
