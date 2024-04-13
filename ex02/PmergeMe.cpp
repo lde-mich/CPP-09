@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:18:57 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/04/09 22:55:09 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/04/13 10:47:01 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,24 @@ size_t jacobsthal[] =
 };
 
 
-void PmergeMe::binaryInsert(std::vector<int>& arr, int num, int left, int right)
+int PmergeMe::searchToDo(int num, std::vector<int>& arr) const
 {
-	int mid = (left + right) / 2;
+	int start = 0;
+    int end = getSize(arr);
 
-	if (num < arr[mid])
-        binaryInsert(arr, num, left, right / 2);
-    else if (num > arr[mid])
+    while (start < end)
 	{
-		left = mid + 1;
-        binaryInsert(arr, num, left, right);
-	}
-    else
-        arr.insert(arr.begin() + mid, num);
+        int mid = start + (end - start) / 2;
+		
+        if (num < arr[mid])
+            end = mid;
+        else if (num > arr[mid])
+            start = mid + 1;
+        else
+            return mid;
+    }
 	
+    return start;
 }
 
 void PmergeMe::printVector(std::vector<int> arr)
@@ -84,13 +88,13 @@ void PmergeMe::printVector(std::vector<int> arr)
 	return ;
 }
 
-int PmergeMe::getSize(std::vector<int> arr)
+int PmergeMe::getSize(std::vector<int> arr) const
 {
 	return (arr.size());
 }
 
 
-std::vector<int> PmergeMe::getVector()
+std::vector<int> &PmergeMe::getVector()
 {
 	return (this->vector);
 }
@@ -168,7 +172,7 @@ void PmergeMe::firstStepVector(int pairsize)
 void PmergeMe::secondStepVector(int pairsize)
 {
     static int rr;
-    if (pairsize <= 2)
+    if (pairsize < 2)
 		return;
 
 	std::cout << "Vector " << ++rr << " →    ";
@@ -178,7 +182,6 @@ void PmergeMe::secondStepVector(int pairsize)
 	this->mainVector.push_back(this->vector[pairsize / 2]);
 
     int i = pairsize / 2 + 1;
-	this->mainVector.push_back(this->vector[i]);
     while (i < pairsize)
 	{
         this->pendVector.push_back(this->vector[i]);
@@ -196,50 +199,78 @@ void PmergeMe::secondStepVector(int pairsize)
 
 	if (pairsize != getSize(this->vector))
 	{
+		// std::cout << "prova →       "; 
+    	// printVector(this->pendVector);
+		// std::cout << "prova2 →      "; 
+    	// printVector(this->mainVector);
 		i = pairsize;
 		this->mainVector.push_back(this->vector[i]);
-		
 		while (i < pairsize + pairsize / 2)
 		{
 			this->pendVector.push_back(this->vector[i]);
 			i++;    
 		}
-
-		int last = 3;
-		for (int i = 0; i < 33; i++)
+		std::cout << "test →        "; 
+    	printVector(this->pendVector);
+		std::cout << "test2 →       "; 
+    	printVector(this->mainVector);
+		
+		size_t last = 3;
+		for (int j = 0; j < 33; j++)
 		{
-			if (jacobsthal[i] == last)
+			if (jacobsthal[j] <= last)
 				continue;
 			
-			int jacob = jacobsthal[i];
-			while (jacob > getSize(this->vector) / (pairsize / 2))
-				jacob--;
+			size_t jacob = jacobsthal[j];
+			if (jacob > (size_t)getSize(this->vector) / (pairsize / 2))
+				jacob = (size_t)getSize(this->vector) / (pairsize / 2);
 			
-			// indice del main della futura coppia
-			int index = (jacob - 1) * pairsize / 2;
-			
-			// TODO: funzione che accetta un numero:(this->vector[index]), un array e restituisce l'indice di dove andare ad inserire il numero nell'array
-			// array da passare alla funzione: mainVector
-			// l'indice ritornato dalla funzione, sarà moltiplicato per pairsize / 2
-			
-			//int tmp = indice ritornato dalla funzione moltiplicato per pairsize / 2
-			
-			this->mainVector.insert(this->vector.begin() + indice ritornato dalla funzione, this->vector[index]);
-			while (index < jacob * pairsize / 2)
+			while (jacob > last)
 			{
-				this->pendVector.insert(this->vector.begin() + tmp, this->vector[index]);
-				index++;
+				std::cout << "whilepend →   "; 
+				printVector(this->pendVector);
+				std::cout << "whilemain →   "; 
+				printVector(this->mainVector);
+				
+				// indice del main della futura coppia
+				int index = (jacob - 1) * pairsize / 2;
+				
+				int ret = (searchToDo(this->vector[index], this->mainVector));
+				int tmp = ret * pairsize / 2;
+				printVector(getVector());
+				this->mainVector.insert(this->mainVector.begin() + ret, this->vector[index]);
+				std::cout << "............"<< std::endl;
+				while ((size_t)index < jacob * pairsize / 2)
+				{
+					std::cout << index << " - " << this->vector[index] << std::endl;
+					std::cout << "whilepend →   "; 
+					printVector(this->pendVector);
+					std::cout << "whilemain →   "; 
+					printVector(this->mainVector);
+					
+					this->pendVector.insert(this->pendVector.begin() + tmp++, this->vector[index]);
+					index++;
+
+					std::cout << "while pend →  "; 
+					printVector(this->pendVector);
+					std::cout << "while main →  "; 
+					printVector(this->mainVector);
+				}
+				jacob--;
 			}
-			
+			last = jacobsthal[j];
 		}
 	}
 	this->vector = this->pendVector;
 
 	std::cout << "Pend →        "; 
     printVector(this->pendVector);
+	std::cout << "Main →        "; 
+    printVector(this->mainVector);
 	std::cout << "--------------" << std::endl;
 
     this->pendVector.clear();
+	this->mainVector.clear();
 	
     secondStepVector(pairsize / 2);
 }
