@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:19:12 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/04/13 11:46:03 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/04/15 17:23:36 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ class PmergeMe
 		void printVector(std::vector<int> arr);
 		int getSizeVector(std::vector<int> arr) const;
 		std::vector<int> &getVector();
+		void insertRestVector();
 		void vectorExecute();
 
 		//DEQUE
@@ -55,6 +56,7 @@ class PmergeMe
 		void printDeque(std::deque<int> arr);
 		int getSizeDeque(std::deque<int> arr) const;
 		std::deque<int> &getDeque();
+		void insertRestDeque();
 		void dequeExecute();
 
 

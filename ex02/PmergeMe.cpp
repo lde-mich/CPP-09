@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:18:57 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/04/15 11:30:31 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/04/15 18:01:47 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,9 @@ int PmergeMe::searchToDoVector(int num, std::vector<int>& arr) const
 void PmergeMe::printVector(std::vector<int> arr)
 {
 	int i = 0;
-	std::cout << "| ";
 	while (i < getSizeVector(arr))
 	{
-		std::cout << arr[i] << " | ";
+		std::cout << arr[i] << " ";
 		i++;
 	}
 	std::cout << std::endl;
@@ -142,11 +141,22 @@ std::vector<int> &PmergeMe::getVector()
 
 void PmergeMe::firstStepVector(int pairsize)
 {
-	static int rr;
+	// static int rr;
 	
 	if (pairsize > getSizeVector(this->vector))
 		return;
-
+	
+	if (getSizeVector(this->vector) % pairsize != 0)
+    {
+		size_t i = getSizeVector(this->vector); 
+        while (getSizeVector(this->vector) % pairsize != 0)
+        {
+            this->restVector.push_back(this->vector[i - 1]);
+            this->vector.pop_back();
+			i--;
+        }
+    }
+	
 	int i = 0;
 	while (i < getSizeVector(this->vector))
 	{
@@ -164,8 +174,8 @@ void PmergeMe::firstStepVector(int pairsize)
 		i += pairsize;
 	}
 
-	std::cout << "Step " << ++rr << " →      ";
-	printVector(getVector());
+	// std::cout << "Step " << ++rr << " →      ";
+	// printVector(getVector());
 	firstStepVector(pairsize * 2);
 
 }
@@ -173,12 +183,12 @@ void PmergeMe::firstStepVector(int pairsize)
 
 void PmergeMe::secondStepVector(int pairsize)
 {
-    static int rr;
+    // static int rr;
     if (pairsize < 2)
 		return;
 
-	std::cout << "Vector " << ++rr << " →    ";
-    printVector(getVector());
+	// std::cout << "Vector " << ++rr << " →    ";
+    // printVector(getVector());
 	
     this->pendVector.push_back(this->vector[pairsize / 2]);
 	this->mainVector.push_back(this->vector[pairsize / 2]);
@@ -208,10 +218,10 @@ void PmergeMe::secondStepVector(int pairsize)
 			this->pendVector.push_back(this->vector[i]);
 			i++;    
 		}
-		std::cout << "test →        "; 
-    	printVector(this->pendVector);
-		std::cout << "test2 →       "; 
-    	printVector(this->mainVector);
+		// std::cout << "test →        "; 
+    	// printVector(this->pendVector);
+		// std::cout << "test2 →       "; 
+    	// printVector(this->mainVector);
 		
 		size_t last = 3;
 		for (int j = 0; j < 33; j++)
@@ -225,10 +235,10 @@ void PmergeMe::secondStepVector(int pairsize)
 			
 			while (jacob > last)
 			{
-				std::cout << "whilepend →   "; 
-				printVector(this->pendVector);
-				std::cout << "whilemain →   "; 
-				printVector(this->mainVector);
+				// std::cout << "whilepend →   "; 
+				// printVector(this->pendVector);
+				// std::cout << "whilemain →   "; 
+				// printVector(this->mainVector);
 				
 				// indice del main della futura coppia
 				int index = (jacob - 1) * pairsize / 2;
@@ -236,22 +246,22 @@ void PmergeMe::secondStepVector(int pairsize)
 				int ret = (searchToDoVector(this->vector[index], this->mainVector));
 				int tmp = ret * pairsize / 2;
 				this->mainVector.insert(this->mainVector.begin() + ret, this->vector[index]);
-				std::cout << "............"<< std::endl;
+				
 				while ((size_t)index < jacob * pairsize / 2)
 				{
-					std::cout << index << " - " << this->vector[index] << std::endl;
-					std::cout << "whilepend →   "; 
-					printVector(this->pendVector);
-					std::cout << "whilemain →   "; 
-					printVector(this->mainVector);
+					// std::cout << index << " - " << this->vector[index] << std::endl;
+					// std::cout << "whilepend →   "; 
+					// printVector(this->pendVector);
+					// std::cout << "whilemain →   "; 
+					// printVector(this->mainVector);
 					
 					this->pendVector.insert(this->pendVector.begin() + tmp++, this->vector[index]);
 					index++;
 
-					std::cout << "while pend →  "; 
-					printVector(this->pendVector);
-					std::cout << "while main →  "; 
-					printVector(this->mainVector);
+					// std::cout << "while pend →  "; 
+					// printVector(this->pendVector);
+					// std::cout << "while main →  "; 
+					// printVector(this->mainVector);
 				}
 				jacob--;
 			}
@@ -260,11 +270,10 @@ void PmergeMe::secondStepVector(int pairsize)
 	}
 	this->vector = this->pendVector;
 
-	std::cout << "Pend →        "; 
-    printVector(this->pendVector);
-	std::cout << "Main →        "; 
-    printVector(this->mainVector);
-	std::cout << "--------------" << std::endl;
+	// std::cout << "Pend →        "; 
+    // printVector(this->pendVector);
+	// std::cout << "Main →        "; 
+    // printVector(this->mainVector);
 
     this->pendVector.clear();
 	this->mainVector.clear();
@@ -273,6 +282,20 @@ void PmergeMe::secondStepVector(int pairsize)
 }
 
 
+void PmergeMe::insertRestVector()
+{
+	if (this->vector.empty())
+		return ;
+	
+	int i = 0;
+	while (i < getSizeVector(this->restVector))
+	{
+		int tmp = (searchToDoVector(this->restVector[i], this->vector));
+		this->vector.insert(this->vector.begin() + tmp, this->restVector[i]);
+		i++;
+	}
+}
+
 
 //EXECUTE VECTOR
 
@@ -280,27 +303,22 @@ void PmergeMe::vectorExecute()
 {
 	clock_t start_time = clock();
 	
-	std::cout << "Start →       "; 
+	std::cout << "Before: "; 
 	printVector(getVector());
 	
-	std::cout << "-----------------------------------------------\n" << std::endl;
-	std::cout << "First step:"<< std::endl;
 	firstStepVector(2);
-	std::cout << "-----------------------------------------------\n" << std::endl;
 	
-	std::cout << "Second step:"<< std::endl;
 	secondStepVector(getSizeVector(this->vector));
+	insertRestVector();
 
-	std::cout << "Final →       "; 
+	std::cout << "After: "; 
     printVector(this->vector);
-	std::cout << "-----------------------------------------------" << std::endl;
 
 	clock_t end_time = clock();
 	double time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
     double duration_microseconds = time  * 1000000;
 
-    std::cout << "Tempo di esecuzione: " << duration_microseconds << " us" << std::endl;
-
+	std::cout << "Time to process a range of " << getSizeVector(this->vector)<< " elements with std::vector : " << duration_microseconds << " us" << std::endl;
 	
 }
 
@@ -331,10 +349,9 @@ int PmergeMe::searchToDoDeque(int num, std::deque<int>& arr) const
 void PmergeMe::printDeque(std::deque<int> arr)
 {
 	int i = 0;
-	std::cout << "| ";
 	while (i < getSizeDeque(arr))
 	{
-		std::cout << arr[i] << " | ";
+		std::cout << arr[i] << " ";
 		i++;
 	}
 	std::cout << std::endl;
@@ -358,10 +375,21 @@ std::deque<int> &PmergeMe::getDeque()
 
 void PmergeMe::firstStepDeque(int pairsize)
 {
-	static int rr;
+	// static int rr;
 	
 	if (pairsize > getSizeDeque(this->deque))
 		return;
+
+	if (getSizeDeque(this->deque) % pairsize != 0)
+    {
+		size_t i = getSizeDeque(this->deque); 
+        while (getSizeDeque(this->deque) % pairsize != 0)
+        {
+            this->restDeque.push_back(this->deque[i - 1]);
+            this->deque.pop_back();
+			i--;
+        }
+    }
 
 	int i = 0;
 	while (i < getSizeDeque(this->deque))
@@ -380,8 +408,8 @@ void PmergeMe::firstStepDeque(int pairsize)
 		i += pairsize;
 	}
 
-	std::cout << "Step " << ++rr << " →      ";
-	printDeque(getDeque());
+	// std::cout << "Step " << ++rr << " →      ";
+	// printDeque(getDeque());
 	firstStepDeque(pairsize * 2);
 
 }
@@ -389,12 +417,12 @@ void PmergeMe::firstStepDeque(int pairsize)
 
 void PmergeMe::secondStepDeque(int pairsize)
 {
-    static int rr;
+    // static int rr;
     if (pairsize < 2)
 		return;
 
-	std::cout << "Deque " << ++rr << " →    ";
-    printDeque(getDeque());
+	// std::cout << "Deque " << ++rr << " →    ";
+    // printDeque(getDeque());
 	
     this->pendDeque.push_back(this->deque[pairsize / 2]);
 	this->mainDeque.push_back(this->deque[pairsize / 2]);
@@ -424,10 +452,10 @@ void PmergeMe::secondStepDeque(int pairsize)
 			this->pendDeque.push_back(this->deque[i]);
 			i++;    
 		}
-		std::cout << "test →        "; 
-    	printDeque(this->pendDeque);
-		std::cout << "test2 →       "; 
-    	printDeque(this->mainDeque);
+		// std::cout << "test →        "; 
+    	// printDeque(this->pendDeque);
+		// std::cout << "test2 →       "; 
+    	// printDeque(this->mainDeque);
 		
 		size_t last = 3;
 		for (int j = 0; j < 33; j++)
@@ -441,10 +469,10 @@ void PmergeMe::secondStepDeque(int pairsize)
 			
 			while (jacob > last)
 			{
-				std::cout << "whilepend →   "; 
-				printDeque(this->pendDeque);
-				std::cout << "whilemain →   "; 
-				printDeque(this->mainDeque);
+				// std::cout << "whilepend →   "; 
+				// printDeque(this->pendDeque);
+				// std::cout << "whilemain →   "; 
+				// printDeque(this->mainDeque);
 				
 				// indice del main della futura coppia
 				int index = (jacob - 1) * pairsize / 2;
@@ -452,22 +480,22 @@ void PmergeMe::secondStepDeque(int pairsize)
 				int ret = (searchToDoDeque(this->deque[index], this->mainDeque));
 				int tmp = ret * pairsize / 2;
 				this->mainDeque.insert(this->mainDeque.begin() + ret, this->deque[index]);
-				std::cout << "............"<< std::endl;
+				
 				while ((size_t)index < jacob * pairsize / 2)
 				{
-					std::cout << index << " - " << this->deque[index] << std::endl;
-					std::cout << "whilepend →   "; 
-					printDeque(this->pendDeque);
-					std::cout << "whilemain →   "; 
-					printDeque(this->mainDeque);
+					// std::cout << index << " - " << this->deque[index] << std::endl;
+					// std::cout << "whilepend →   "; 
+					// printDeque(this->pendDeque);
+					// std::cout << "whilemain →   "; 
+					// printDeque(this->mainDeque);
 					
 					this->pendDeque.insert(this->pendDeque.begin() + tmp++, this->deque[index]);
 					index++;
 
-					std::cout << "while pend →  "; 
-					printDeque(this->pendDeque);
-					std::cout << "while main →  "; 
-					printDeque(this->mainDeque);
+					// std::cout << "while pend →  "; 
+					// printDeque(this->pendDeque);
+					// std::cout << "while main →  "; 
+					// printDeque(this->mainDeque);
 				}
 				jacob--;
 			}
@@ -476,16 +504,30 @@ void PmergeMe::secondStepDeque(int pairsize)
 	}
 	this->deque = this->pendDeque;
 
-	std::cout << "Pend →        "; 
-    printDeque(this->pendDeque);
-	std::cout << "Main →        "; 
-    printDeque(this->mainDeque);
-	std::cout << "--------------" << std::endl;
+	// std::cout << "Pend →        "; 
+    // printDeque(this->pendDeque);
+	// std::cout << "Main →        "; 
+    // printDeque(this->mainDeque);
 
     this->pendDeque.clear();
 	this->mainDeque.clear();
 	
     secondStepDeque(pairsize / 2);
+}
+
+
+void PmergeMe::insertRestDeque()
+{
+	if (this->deque.empty())
+		return ;
+	
+	int i = 0;
+	while (i < getSizeDeque(this->restDeque))
+	{
+		int tmp = (searchToDoDeque(this->restDeque[i], this->deque));
+		this->deque.insert(this->deque.begin() + tmp, this->restDeque[i]);
+		i++;
+	}
 }
 
 
@@ -495,24 +537,20 @@ void PmergeMe::dequeExecute()
 {
 	clock_t start_time = clock();
 	
-	std::cout << "Start →       "; 
+	std::cout << "Before: "; 
 	printDeque(getDeque());
 	
-	std::cout << "-----------------------------------------------\n" << std::endl;
-	std::cout << "First step:"<< std::endl;
 	firstStepDeque(2);
-	std::cout << "-----------------------------------------------\n" << std::endl;
 	
-	std::cout << "Second step:"<< std::endl;
 	secondStepDeque(getSizeDeque(this->deque));
+	insertRestDeque();
 
-	std::cout << "Final →       "; 
+	std::cout << "After: "; 
     printDeque(this->deque);
-	std::cout << "-----------------------------------------------" << std::endl;
 	
 	clock_t end_time = clock();
 	double time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
     double duration_microseconds = time  * 1000000;
 
-    std::cout << "Tempo di esecuzione: " << duration_microseconds << " us" << std::endl;
+    std::cout << "Time to process a range of " << getSizeDeque(this->deque)<< " elements with std::deque : " << duration_microseconds << " us" << std::endl;
 }
