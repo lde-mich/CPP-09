@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:18:57 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/04/13 12:01:02 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/04/15 11:30:31 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,6 +278,7 @@ void PmergeMe::secondStepVector(int pairsize)
 
 void PmergeMe::vectorExecute()
 {
+	clock_t start_time = clock();
 	
 	std::cout << "Start →       "; 
 	printVector(getVector());
@@ -293,6 +294,13 @@ void PmergeMe::vectorExecute()
 	std::cout << "Final →       "; 
     printVector(this->vector);
 	std::cout << "-----------------------------------------------" << std::endl;
+
+	clock_t end_time = clock();
+	double time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+    double duration_microseconds = time  * 1000000;
+
+    std::cout << "Tempo di esecuzione: " << duration_microseconds << " us" << std::endl;
+
 	
 }
 
@@ -485,6 +493,7 @@ void PmergeMe::secondStepDeque(int pairsize)
 
 void PmergeMe::dequeExecute()
 {
+	clock_t start_time = clock();
 	
 	std::cout << "Start →       "; 
 	printDeque(getDeque());
@@ -501,4 +510,9 @@ void PmergeMe::dequeExecute()
     printDeque(this->deque);
 	std::cout << "-----------------------------------------------" << std::endl;
 	
+	clock_t end_time = clock();
+	double time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+    double duration_microseconds = time  * 1000000;
+
+    std::cout << "Tempo di esecuzione: " << duration_microseconds << " us" << std::endl;
 }
