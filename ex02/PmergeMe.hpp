@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:19:12 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/04/15 17:23:36 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/04/16 12:27:26 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #include <cctype>
 #include <stdlib.h> 
 #include <algorithm>
+#include <cstring>
+
 
 class PmergeMe
 {
@@ -37,6 +39,7 @@ class PmergeMe
 	public:
 		
 		void checkArgs(char** argv);
+		void checkDouble(char** argv);
 		void loadArgs(char** argv);
 		
 		//VECTOR

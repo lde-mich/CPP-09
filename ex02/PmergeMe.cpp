@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:18:57 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/04/15 18:01:47 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/04/16 12:26:51 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,24 @@ PmergeMe &PmergeMe::operator=(PmergeMe const &obj)
 
 
 //CHECK
+
+
+void PmergeMe::checkDouble(char** argv)
+{
+	int i = 0;
+	
+    while (argv[i])
+    {
+        int j = i + 1;
+        while (argv[j])
+        {
+            if (std::strcmp(argv[i], argv[j]) == 0)
+                throw PmergeMe::InvalidInputException();
+            j++;
+        }
+        i++;
+    }
+}
 
 void PmergeMe::checkArgs(char** argv)
 {

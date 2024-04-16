@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:18:27 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/04/15 18:01:26 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/04/16 12:23:31 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int main(int argc, char** argv)
 	try
 	{
 		
+		srt.checkDouble(argv);
 		srt.checkArgs(argv);
 		srt.loadArgs(argv);
 		
