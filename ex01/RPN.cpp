@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:29:30 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/03/20 18:20:03 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/04/17 11:45:51 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void RPN::calculator(char* argv)
 
 	while (argv[i])
 	{
-		while (argv[i] != '+' && argv[i] != '-' && argv[i] != '*' && argv[i] != '/')
+		while (argv[i] && argv[i] != '+' && argv[i] != '-' && argv[i] != '*' && argv[i] != '/')
 		{
 			if (argv[i] == 32)
 			{
@@ -60,7 +60,11 @@ void RPN::calculator(char* argv)
 		}
 		int j = 0;
 		int k = 0;
+
+		if (!argv[i])
+			break;
 		n = 0;
+
 		for (int m = 0; m < 2; m++)
 		{
 			switch (argv[i])
@@ -99,22 +103,8 @@ void RPN::calculator(char* argv)
 		this->stack.push(n);
 		i++;
 	}
-
+	
 	std::cout << n << std::endl;
+	return;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
