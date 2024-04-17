@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:29:30 by lde-mich          #+#    #+#             */
-/*   Updated: 2024/04/17 11:45:51 by lde-mich         ###   ########.fr       */
+/*   Updated: 2024/04/17 12:40:40 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,5 @@ void RPN::calculator(char* argv)
 	std::cout << n << std::endl;
 	return;
 }
+
 
